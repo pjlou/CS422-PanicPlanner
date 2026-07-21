@@ -2,7 +2,6 @@ package com.example.cs422_panicplanner
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,20 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.cs422_panicplanner.ui.theme.CS422PanicPlannerTheme
 
-class MainActivity : ComponentActivity() {
+class EventActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.calendar_main)
+        setContentView(R.layout.event_detail)
     }
-
-    fun startEventActivity(view: View) {
-        val intent = Intent(this, EventActivity::class.java)
-        startActivity(intent)
-    }
-
-    fun startSettingsActivity(view: View) {
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
-    }
-
 }

@@ -13,4 +13,18 @@
         android:gravity="center"
         android:padding="10dp" />
 
+    <Button
+        android:id="@+id/go_to_event_details_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startEventActivity"
+        android:text="Go to Event Details Page" />
+
+    <Button
+        android:id="@+id/go_to_settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startSettingsActivity"
+        android:text="Go to Settings Page" />
+
 </LinearLayout>
