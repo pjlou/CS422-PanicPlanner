@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    android:padding="8dp">
+
+    <!-- Header -->
+    <TextView
+        android:id="@+id/header_month"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="July 2026"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_20"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Navigation Container -->
+    <LinearLayout
+        android:id="@+id/navigation_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/header_month"
+        app:layout_constraintStart_toStartOf="@+id/header_month"
+        app:layout_constraintTop_toBottomOf="@+id/header_month">
+
+        <Button
+            android:id="@+id/go_to_event_details_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startEventActivity"
+            android:text="Detail View" />
+
+        <Button
+            android:id="@+id/go_to_settings_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startSettingsActivity"
+            android:text="Settings" />
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_vertical_40"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <!-- Date Column -->
+    <LinearLayout
+        android:id="@+id/date_column"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:background="@android:drawable/editbox_background"
+        android:orientation="vertical"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_vertical_40"
+        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_20"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Date"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="15" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="16" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="17" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="18" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="19" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="20" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Events Column -->
+    <LinearLayout
+        android:id="@+id/events_column"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:background="@android:drawable/editbox_background"
+        android:orientation="vertical"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/guideline_vertical_40"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Events"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="Event 001" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="Event 002" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="Event 003" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="Event 004" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="4dp" android:text="Event 005" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
