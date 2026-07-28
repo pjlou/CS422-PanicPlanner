@@ -2,6 +2,7 @@ package com.example.cs422_panicplanner.database
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cs422_panicplanner.Event
 import kotlinx.coroutines.launch
 
 class EventViewModel(

@@ -1,5 +1,7 @@
 package com.example.cs422_panicplanner.database
 
+import com.example.cs422_panicplanner.Event
+
 class EventRepository(
     private val eventDao: EventDao
 ) {

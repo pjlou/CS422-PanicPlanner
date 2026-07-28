@@ -70,10 +70,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnAddEvent.setOnClickListener {
-            // Logic: Add a blank event to the first day of the month for demonstration
-            daysWithEvents.add(1)
-            updateCalendar()
-            Toast.makeText(this, "Blank event added to day 1", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EventActivity::class.java)
+            startActivity(intent)
         }
 
         btnSettings.setOnClickListener {
