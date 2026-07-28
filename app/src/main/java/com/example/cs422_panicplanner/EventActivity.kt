@@ -12,8 +12,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.cs422_panicplanner.database.DatabaseProvider
 import com.example.cs422_panicplanner.ui.theme.CS422PanicPlannerTheme
 import java.time.LocalDateTime
+import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 
-class EventActivity : ComponentActivity() {
+class EventActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val database = DatabaseProvider.getDatabase(this)
@@ -89,6 +91,10 @@ fun EventCreationScreen(onEventCreated: (Event) -> Unit, onCancel: () -> Unit) {
                     Text("Save Event")
                 }
             }
+        setContentView(R.layout.event_detail)
+
+        findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
+            finish()
         }
     }
 }
