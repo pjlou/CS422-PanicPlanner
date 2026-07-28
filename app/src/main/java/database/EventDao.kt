@@ -7,7 +7,7 @@ import com.example.cs422_panicplanner.Event
 interface EventDao {
 
     @Insert
-    suspend fun insert(event: Event)
+    suspend fun insert(event: Event): Long
 
     @Update
     suspend fun update(event: Event)

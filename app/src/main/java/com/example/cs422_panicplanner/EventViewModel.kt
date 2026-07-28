@@ -23,9 +23,21 @@ class EventViewModel(private val eventDao: EventDao) : ViewModel() {
         }
     }
 
-    fun addEvent(event: Event) {
+    fun addEvent(event: Event, onComplete: (Long) -> Unit) {
         viewModelScope.launch {
-            eventDao.insert(event)
+            val id = eventDao.insert(event)
+            loadEvents()
+            onComplete(id)
+        }
+    }
+
+    suspend fun getEventById(id: Int): Event? {
+        return eventDao.getEvent(id)
+    }
+
+    fun updateEvent(event: Event) {
+        viewModelScope.launch {
+            eventDao.update(event)
             loadEvents()
         }
     }
