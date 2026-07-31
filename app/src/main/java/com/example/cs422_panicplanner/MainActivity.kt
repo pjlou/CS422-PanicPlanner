@@ -10,8 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cs422_panicplanner.database.DatabaseProvider
+import kotlinx.coroutines.launch
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -21,14 +25,20 @@ class MainActivity : AppCompatActivity() {
     private lateinit var headerMonth: TextView
     private lateinit var rvCalendar: RecyclerView
     private lateinit var adapter: CalendarAdapter
+    private lateinit var viewModel: EventViewModel
     private var currentMonth: YearMonth = YearMonth.now()
     
-    // Track which days have events for the current month
-    private val daysWithEvents = mutableSetOf<Int>()
+    // Track events grouped by day for the current month
+    private var eventsByDay: Map<Int, List<Event>> = emptyMap()
+    private var allEvents: List<Event> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.calendar_main)
+
+        val database = DatabaseProvider.getDatabase(this)
+        val factory = EventViewModelFactory(database.eventDao())
+        viewModel = ViewModelProvider(this, factory)[EventViewModel::class.java]
 
         headerMonth = findViewById(R.id.header_month)
         rvCalendar = findViewById(R.id.rv_calendar)
@@ -38,19 +48,18 @@ class MainActivity : AppCompatActivity() {
         val btnNextMonth = findViewById<ImageButton>(R.id.btn_next_month)
 
         rvCalendar.layoutManager = LinearLayoutManager(this)
-        adapter = CalendarAdapter(currentMonth.lengthOfMonth(), daysWithEvents) { day ->
-            if (daysWithEvents.contains(day)) {
+        adapter = CalendarAdapter(
+            currentMonth.lengthOfMonth(),
+            eventsByDay,
+            onEventClick = { event ->
                 val intent = Intent(this, EventActivity::class.java)
-                intent.putExtra("SELECTED_DAY", day)
-                intent.putExtra("SELECTED_MONTH", currentMonth.monthValue)
-                intent.putExtra("SELECTED_YEAR", currentMonth.year)
+                intent.putExtra("EVENT_ID", event.id)
                 startActivity(intent)
-            } else {
-                Toast.makeText(this, "No event on this day", Toast.LENGTH_SHORT).show()
             }
-        }
+        )
         rvCalendar.adapter = adapter
 
+        observeEvents()
         updateHeader()
 
         headerMonth.setOnClickListener {
@@ -59,13 +68,11 @@ class MainActivity : AppCompatActivity() {
 
         btnPrevMonth.setOnClickListener {
             currentMonth = currentMonth.minusMonths(1)
-            daysWithEvents.clear()
             updateCalendar()
         }
 
         btnNextMonth.setOnClickListener {
             currentMonth = currentMonth.plusMonths(1)
-            daysWithEvents.clear()
             updateCalendar()
         }
 
@@ -79,6 +86,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadEvents()
+    }
+
+    private fun observeEvents() {
+        lifecycleScope.launch {
+            viewModel.events.collect { events ->
+                allEvents = events
+                updateCalendar()
+            }
+        }
+    }
+
     private fun updateHeader() {
         val formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.getDefault())
         headerMonth.text = currentMonth.format(formatter)
@@ -86,7 +107,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateCalendar() {
         updateHeader()
-        adapter.updateData(currentMonth.lengthOfMonth(), daysWithEvents)
+        
+        eventsByDay = allEvents
+            .filter { it.startTime.year == currentMonth.year && it.startTime.monthValue == currentMonth.monthValue }
+            .groupBy { it.startTime.dayOfMonth }
+        
+        adapter.updateData(currentMonth.lengthOfMonth(), eventsByDay)
     }
 
     private fun showMonthYearPickerDialog() {
@@ -109,8 +135,6 @@ class MainActivity : AppCompatActivity() {
         builder.setView(dialogView)
         builder.setPositiveButton("OK") { _, _ ->
             currentMonth = YearMonth.of(yearPicker.value, monthPicker.value)
-            // For demo, clear events when changing months
-            daysWithEvents.clear()
             updateCalendar()
         }
         builder.setNegativeButton("Cancel", null)

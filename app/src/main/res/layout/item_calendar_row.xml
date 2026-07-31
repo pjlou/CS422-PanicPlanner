@@ -25,13 +25,12 @@
         android:layout_height="match_parent"
         android:background="#DDDDDD" />
 
-    <TextView
-        android:id="@+id/tv_event_summary"
+    <LinearLayout
+        android:id="@+id/events_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:paddingStart="8dp"
-        android:text="No events"
-        android:textSize="14sp" />
+        android:orientation="vertical"
+        android:paddingStart="8dp" />
 
 </LinearLayout>
