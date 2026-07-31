@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
@@ -12,7 +11,6 @@
         android:id="@+id/month_navigation_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -57,7 +55,6 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
         android:padding="4dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_add_event"
         app:layout_constraintEnd_toEndOf="parent"
