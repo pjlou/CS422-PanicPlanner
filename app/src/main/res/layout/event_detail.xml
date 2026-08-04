@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="?android:attr/windowBackground"
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
@@ -15,6 +15,7 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="Back"
         android:src="@drawable/ic_arrow_back"
+        app:tint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/detail_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/detail_header" />
@@ -24,10 +25,11 @@
         android:id="@+id/detail_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:drawable/editbox_background"
+        android:background="@drawable/bg_container"
         android:gravity="center"
         android:padding="16dp"
         android:text="Event Details"
+        android:textColor="?attr/colorPrimary"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:background="@android:drawable/dialog_holo_light_frame"
+        android:background="@drawable/bg_container"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="24dp"

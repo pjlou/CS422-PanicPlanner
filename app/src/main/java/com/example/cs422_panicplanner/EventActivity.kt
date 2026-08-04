@@ -7,14 +7,20 @@ import android.widget.ImageButton
 import android.widget.TextView as XmlTextView
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -22,7 +28,7 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
@@ -35,7 +41,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -44,8 +54,8 @@ import com.example.cs422_panicplanner.ui.theme.CS422PanicPlannerTheme
 import kotlinx.coroutines.launch
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -205,97 +215,136 @@ fun EventCreationScreen(
         )
     }
 
-    Scaffold(
-        topBar = {
-            Text(
-                if (initialEvent == null) "Add New Event" else "Edit Event",
-                modifier = Modifier.padding(16.dp),
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }
-    ) { padding ->
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
         Column(
             modifier = Modifier
-                .padding(padding)
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .widthIn(max = 600.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
-                label = { Text("Event Title") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            OutlinedTextField(
-                value = description,
-                onValueChange = { description = it },
-                label = { Text("Description") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = date,
-                    onValueChange = { },
-                    label = { Text("Date (Month and Day)") },
-                    readOnly = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { showDatePicker = true }
-                )
-            }
-            Box(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = time,
-                    onValueChange = { },
-                    label = { Text("Time (Hour and Minute)") },
-                    readOnly = true,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Box(
-                    modifier = Modifier
-                        .matchParentSize()
-                        .clickable { showTimePicker = true }
-                )
-            }
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            // Header (Styled like XML headers)
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(8.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)),
+                modifier = Modifier.padding(bottom = 24.dp)
             ) {
-                Button(onClick = onCancel) {
-                    Text("Cancel")
-                }
-                Button(
-                    onClick = {
-                        if (title.isNotBlank()) {
-                            val selectedDate = datePickerState.selectedDateMillis?.let {
-                                Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate()
-                            } ?: LocalDate.now()
+                Text(
+                    text = if (initialEvent == null) "Add New Event" else "Edit Event",
+                    modifier = Modifier.padding(horizontal = 32.dp, vertical = 16.dp),
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
 
-                            val selectedTime = LocalTime.of(timePickerState.hour, timePickerState.minute)
-                            val startDateTime = LocalDateTime.of(selectedDate, selectedTime)
+            // Main Form Card
+            Surface(
+                color = MaterialTheme.colorScheme.surface,
+                shape = RoundedCornerShape(8.dp),
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    OutlinedTextField(
+                        value = title,
+                        onValueChange = { title = it },
+                        label = { Text("Event Title") },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true
+                    )
 
-                            onEventCreated(
-                                initialEvent?.copy(
-                                    title = title,
-                                    description = description,
-                                    startTime = startDateTime,
-                                    endTime = startDateTime.plusHours(1)
-                                ) ?: Event(
-                                    title = title,
-                                    description = description,
-                                    startTime = startDateTime,
-                                    endTime = startDateTime.plusHours(1)
-                                )
-                            )
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    OutlinedTextField(
+                        value = description,
+                        onValueChange = { description = it },
+                        label = { Text("Description") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp)
+                    )
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = date,
+                            onValueChange = { },
+                            label = { Text("Date (Month and Day)") },
+                            readOnly = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { showDatePicker = true }
+                        )
+                    }
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        OutlinedTextField(
+                            value = time,
+                            onValueChange = { },
+                            label = { Text("Time (Hour and Minute)") },
+                            readOnly = true,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Box(
+                            modifier = Modifier
+                                .matchParentSize()
+                                .clickable { showTimePicker = true }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        Button(
+                            onClick = onCancel,
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Cancel")
+                        }
+                        Button(
+                            onClick = {
+                                if (title.isNotBlank()) {
+                                    val selectedDate = datePickerState.selectedDateMillis?.let {
+                                        Instant.ofEpochMilli(it).atZone(ZoneOffset.UTC).toLocalDate()
+                                    } ?: LocalDate.now()
+
+                                    val selectedTime = LocalTime.of(timePickerState.hour, timePickerState.minute)
+                                    val startDateTime = LocalDateTime.of(selectedDate, selectedTime)
+
+                                    onEventCreated(
+                                        initialEvent?.copy(
+                                            title = title,
+                                            description = description,
+                                            startTime = startDateTime,
+                                            endTime = startDateTime.plusHours(1)
+                                        ) ?: Event(
+                                            title = title,
+                                            description = description,
+                                            startTime = startDateTime,
+                                            endTime = startDateTime.plusHours(1)
+                                        )
+                                    )
+                                }
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text(if (initialEvent == null) "Save Event" else "Update Event")
                         }
                     }
-                ) {
-                    Text(if (initialEvent == null) "Save Event" else "Update Event")
                 }
             }
         }
