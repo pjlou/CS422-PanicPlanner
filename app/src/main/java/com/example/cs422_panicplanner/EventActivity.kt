@@ -1,6 +1,5 @@
 package com.example.cs422_panicplanner
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button as XmlButton
@@ -8,7 +7,6 @@ import android.widget.ImageButton
 import android.widget.TextView as XmlTextView
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -57,16 +55,8 @@ class EventActivity : AppCompatActivity() {
     private var currentEvent: Event? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
-        
         super.onCreate(savedInstanceState)
-        
+
         val database = DatabaseProvider.getDatabase(this)
         val factory = EventViewModelFactory(database.eventDao())
 
@@ -78,7 +68,7 @@ class EventActivity : AppCompatActivity() {
         } else {
             // Creation mode
             setContent {
-                CS422PanicPlannerTheme(darkTheme = isDarkMode) {
+                CS422PanicPlannerTheme {
                     val viewModel: EventViewModel = viewModel(factory = factory)
                     EventCreationScreen(
                         onEventCreated = { event ->
@@ -99,8 +89,6 @@ class EventActivity : AppCompatActivity() {
 
     private fun setupDetailScreen(eventId: Int, factory: EventViewModelFactory) {
         val viewModel = ViewModelProvider(this, factory)[EventViewModel::class.java]
-        val sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val isDarkMode = sharedPreferences.getBoolean("dark_mode", false)
 
         findViewById<ImageButton>(R.id.btn_back).setOnClickListener {
             finish()
@@ -117,7 +105,7 @@ class EventActivity : AppCompatActivity() {
         findViewById<XmlButton>(R.id.edit_button).setOnClickListener {
             currentEvent?.let { event ->
                 setContent {
-                    CS422PanicPlannerTheme(darkTheme = isDarkMode) {
+                    CS422PanicPlannerTheme {
                         EventCreationScreen(
                             initialEvent = event,
                             onEventCreated = { updatedEvent ->
