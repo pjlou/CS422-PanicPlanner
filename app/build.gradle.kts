@@ -5,7 +5,10 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cs422_panicplanner"
+
+    namespace =
+        "com.example.cs422_panicplanner"
+
     compileSdk {
         version = release(37) {
             minorApiLevel = 1
@@ -13,55 +16,169 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.cs422_panicplanner"
+
+        applicationId =
+            "com.example.cs422_panicplanner"
+
         minSdk = 26
+
         targetSdk = 36
+
         versionCode = 1
+
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner =
+            "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
+
         release {
+
             optimization {
                 enable = false
             }
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+
+        sourceCompatibility =
+            JavaVersion.VERSION_11
+
+        targetCompatibility =
+            JavaVersion.VERSION_11
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation.layout)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.recyclerview)
-    testImplementation(libs.junit)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    /*
+     * Marissa - WorkManager
+     *
+     * Used for background event reminder notifications.
+     */
+    implementation(
+        "androidx.work:work-runtime:2.11.2"
+    )
+
+    implementation(
+        platform(
+            libs.androidx.compose.bom
+        )
+    )
+
+    implementation(
+        libs.androidx.activity.compose
+    )
+
+    implementation(
+        libs.androidx.compose.foundation.layout
+    )
+
+    implementation(
+        libs.androidx.compose.material3
+    )
+
+    implementation(
+        libs.androidx.compose.runtime
+    )
+
+    implementation(
+        libs.androidx.compose.ui
+    )
+
+    implementation(
+        libs.androidx.compose.ui.graphics
+    )
+
+    implementation(
+        libs.androidx.compose.ui.tooling.preview
+    )
+
+    implementation(
+        libs.androidx.core.ktx
+    )
+
+    implementation(
+        libs.androidx.lifecycle.runtime.ktx
+    )
+
+    implementation(
+        libs.androidx.appcompat
+    )
+
+    implementation(
+        libs.androidx.constraintlayout
+    )
+
+    implementation(
+        libs.androidx.recyclerview
+    )
+
+    /*
+     * Room database dependencies already added
+     * by the team.
+     */
+    implementation(
+        libs.androidx.room.runtime
+    )
+
+    implementation(
+        libs.androidx.room.ktx
+    )
+
+    ksp(
+        libs.androidx.room.compiler
+    )
+
+    /*
+     * ViewModel dependencies already added
+     * by the team.
+     */
+    implementation(
+        libs.androidx.lifecycle.viewmodel.ktx
+    )
+
+    implementation(
+        libs.androidx.lifecycle.viewmodel.compose
+    )
+
+    /*
+     * Testing.
+     */
+    testImplementation(
+        libs.junit
+    )
+
+    androidTestImplementation(
+        platform(
+            libs.androidx.compose.bom
+        )
+    )
+
+    androidTestImplementation(
+        libs.androidx.compose.ui.test.junit4
+    )
+
+    androidTestImplementation(
+        libs.androidx.espresso.core
+    )
+
+    androidTestImplementation(
+        libs.androidx.junit
+    )
+
+    debugImplementation(
+        libs.androidx.compose.ui.test.manifest
+    )
+
+    debugImplementation(
+        libs.androidx.compose.ui.tooling
+    )
 }
