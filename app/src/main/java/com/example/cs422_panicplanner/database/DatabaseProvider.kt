@@ -16,7 +16,8 @@ object DatabaseProvider {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "panicplanner_database"
-            ).build()
+            ).fallbackToDestructiveMigration()
+                .build()
 
             INSTANCE = instance
             instance

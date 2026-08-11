@@ -7,9 +7,9 @@
     android:fitsSystemWindows="true"
     android:padding="16dp">
 
-    <!-- Header / Month Navigation Bar -->
+    <!-- Header -->
     <LinearLayout
-        android:id="@+id/month_navigation_bar"
+        android:id="@+id/todo_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_container"
@@ -20,42 +20,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/btn_prev_month"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Previous Month"
-            android:src="@drawable/ic_chevron_left"
-            app:tint="?attr/colorPrimary" />
-
         <TextView
-            android:id="@+id/header_month"
-            android:layout_width="0dp"
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
             android:padding="8dp"
-            android:text="July 2026"
+            android:text="To-Do List"
             android:textColor="?attr/colorPrimary"
             android:textSize="28sp"
             android:textStyle="bold" />
-
-        <ImageButton
-            android:id="@+id/btn_next_month"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Next Month"
-            android:src="@drawable/ic_chevron_right"
-            app:tint="?attr/colorPrimary" />
     </LinearLayout>
 
-    <!-- Calendar List Container -->
+    <!-- List Container -->
     <FrameLayout
-        android:id="@+id/calendar_container"
+        android:id="@+id/todo_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -65,10 +43,10 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/month_navigation_bar">
+        app:layout_constraintTop_toBottomOf="@+id/todo_header">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_calendar"
+            android:id="@+id/rv_todo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
@@ -104,11 +82,11 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/btn_add_event"
+            android:id="@+id/btn_add_todo"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Event" />
+            android:text="Add Task" />
 
         <View
             android:layout_width="0dp"
@@ -116,12 +94,12 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/btn_nav_todo"
+            android:id="@+id/btn_nav_calendar"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:contentDescription="To-Do List"
-            android:src="@drawable/ic_todo"
+            android:src="@drawable/ic_calendar"
+            android:contentDescription="Calendar"
             android:scaleType="fitCenter"
             android:padding="8dp"
             app:tint="?attr/colorPrimary" />
