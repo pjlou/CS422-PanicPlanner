@@ -113,6 +113,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.btn_next_month
             )
 
+        val btnNavTodo = findViewById<ImageButton>(R.id.btn_nav_todo)
+
         rvCalendar.layoutManager =
             LinearLayoutManager(this)
 
@@ -175,6 +177,11 @@ class MainActivity : AppCompatActivity() {
 
         btnSettings.setOnClickListener {
             startSettingsActivity()
+        }
+
+        btnNavTodo.setOnClickListener {
+            val intent = Intent(this, TodoListActivity::class.java)
+            startActivity(intent)
         }
     }
 
