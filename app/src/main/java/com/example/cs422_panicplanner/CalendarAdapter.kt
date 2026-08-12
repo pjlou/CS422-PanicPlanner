@@ -16,6 +16,7 @@ class CalendarAdapter(
 
     class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvDate: TextView = view.findViewById(R.id.tv_date)
+        // EventsContainer and associated logic created with AI assistance; replaces previous event summary
         val eventsContainer: LinearLayout = view.findViewById(R.id.events_container)
     }
 

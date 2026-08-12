@@ -92,13 +92,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Option 2"
+                    android:text="Reminder Time"
                     android:textSize="18sp" />
 
-                <Switch
+                <Spinner
+                    android:id="@+id/spinner_reminder_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ON/OFF" />
+                    android:entries="@array/reminder_options" />
             </LinearLayout>
 
             <View
@@ -117,13 +118,40 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Option 3"
+                    android:text="Automatic Time Zone"
                     android:textSize="18sp" />
 
                 <Switch
+                    android:id="@+id/switch_auto_timezone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ON/OFF" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <LinearLayout
+                android:id="@+id/layout_custom_timezone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Manual GMT Offset"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_timezone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
             <View

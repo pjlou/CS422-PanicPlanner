@@ -41,6 +41,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -79,6 +80,7 @@ class EventActivity : AppCompatActivity() {
         /*
          * If EVENT_ID exists, we are viewing an existing event.
          * Otherwise, we are creating a new event.
+         * Added via AI assistance to connect event creation screen to calendar
          */
         val eventId =
             intent.getIntExtra(
@@ -168,15 +170,28 @@ class EventActivity : AppCompatActivity() {
     /*
      * Converts the LocalDateTime used by the team's Room
      * Event object into milliseconds for WorkManager.
+     *
+     * Also reads the user's preferred reminder time from
+     * SharedPreferences.
      */
     private fun scheduleNotification(
         event: Event
     ) {
+        val sharedPreferences = getSharedPreferences("settings", MODE_PRIVATE)
+        val reminderMinutes = sharedPreferences.getLong("notification_time", 10L)
+        
+        val isAutoTimeZone = sharedPreferences.getBoolean("auto_timezone", true)
+        val zoneId = if (isAutoTimeZone) {
+            ZoneId.systemDefault()
+        } else {
+            val timeZoneId = sharedPreferences.getString("time_zone", "GMT+00:00") ?: "GMT+00:00"
+            ZoneId.of(timeZoneId)
+        }
 
         val eventStartTimeMillis =
             event.startTime
                 .atZone(
-                    ZoneId.systemDefault()
+                    zoneId
                 )
                 .toInstant()
                 .toEpochMilli()
@@ -189,7 +204,8 @@ class EventActivity : AppCompatActivity() {
                 eventDescription =
                     event.description,
                 eventStartTimeMillis =
-                    eventStartTimeMillis
+                    eventStartTimeMillis,
+                reminderMinutesBefore = reminderMinutes
             )
     }
 
@@ -213,6 +229,8 @@ class EventActivity : AppCompatActivity() {
 
         /*
          * Retrieve the event from Room.
+         * Needed for updating screen with edits
+         * addition added with assistance from AI
          */
         lifecycleScope.launch {
 
@@ -360,6 +378,18 @@ fun EventCreationScreen(
     onEventCreated: (Event) -> Unit,
     onCancel: () -> Unit
 ) {
+    val context = LocalContext.current
+    val sharedPreferences = remember { context.getSharedPreferences("settings", android.content.Context.MODE_PRIVATE) }
+    
+    val isAutoTimeZone = remember { sharedPreferences.getBoolean("auto_timezone", true) }
+    val zoneId = remember {
+        if (isAutoTimeZone) {
+            ZoneId.systemDefault()
+        } else {
+            val timeZoneId = sharedPreferences.getString("time_zone", "GMT+00:00") ?: "GMT+00:00"
+            ZoneId.of(timeZoneId)
+        }
+    }
 
     var title by remember {
         mutableStateOf(
@@ -415,7 +445,7 @@ fun EventCreationScreen(
                 initialEvent
                     ?.startTime
                     ?.atZone(
-                        ZoneId.systemDefault()
+                        zoneId
                     )
                     ?.toInstant()
                     ?.toEpochMilli()
